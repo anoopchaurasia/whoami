@@ -19,6 +19,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -54,20 +56,21 @@ public class MainActivity extends Activity implements ResponseCollector {
 			List<NameValuePair> params = new LinkedList<NameValuePair>();
 			params.add(new BasicNameValuePair("token", token));
 			params.add(new BasicNameValuePair("email", email));
-			new TestThread("users/authenticates", MainActivity.this)
+			new WebServices("users/authenticates", MainActivity.this)
 					.execute(params);
+			findViewById(R.id.error).setVisibility(View.INVISIBLE);
 		}
 	}
-	
+
 	private String readToken() {
-		
+
 		String FILENAME = "token";
 		try {
-		    BufferedReader inputReader = new BufferedReader(new InputStreamReader(
-		            openFileInput(FILENAME)));               
-		    return inputReader.readLine();
+			BufferedReader inputReader = new BufferedReader(
+					new InputStreamReader(openFileInput(FILENAME)));
+			return inputReader.readLine();
 		} catch (IOException e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
 		return "";
 	}
@@ -82,6 +85,8 @@ public class MainActivity extends Activity implements ResponseCollector {
 				JSONObject jb = new JSONObject(response);
 				saveInFile((String) jb.get("token"));
 				changeActivity();
+			} else {
+				h.sendEmptyMessage(0);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -91,8 +96,8 @@ public class MainActivity extends Activity implements ResponseCollector {
 			e.printStackTrace();
 		}
 	}
-	
-	private void saveInFile(String token) throws IOException{
+
+	private void saveInFile(String token) throws IOException {
 		String FILENAME = "token";
 		String string = token;
 		MainService.token = token;
@@ -101,9 +106,22 @@ public class MainActivity extends Activity implements ResponseCollector {
 		fos.close();
 	}
 
+	Handler h = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 0: {
+				MainActivity.this.findViewById(R.id.error).setVisibility(View.VISIBLE);
+				break;
+			}
+			}
+		}
+	};
+
 	private void changeActivity() {
-		Intent nextScreen = new Intent(getApplicationContext(), WelcomeActivity.class);
-        startActivity(nextScreen);
-        this.finish();
+		Intent nextScreen = new Intent(getApplicationContext(),
+				WelcomeActivity.class);
+		startActivity(nextScreen);
+		this.finish();
 	}
 }

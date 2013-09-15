@@ -23,7 +23,7 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 
-class TestThread extends AsyncTask<List<? extends NameValuePair>, Void, Void> {
+class WebServices extends AsyncTask<List<? extends NameValuePair>, Void, Void> {
 	
 	ResponseCollector responseCollector;
 	String URL = "http://ec2-54-254-105-248.ap-southeast-1.compute.amazonaws.com/";
@@ -59,6 +59,8 @@ class TestThread extends AsyncTask<List<? extends NameValuePair>, Void, Void> {
 	            reader.close();
 	            String result11 = sb.toString();
 	            Log.d("error", result11);
+				responseCollector.onResponse("", code, path);
+
 			}else{
 				String body = handler.handleResponse(result);
 				Log.d("param","" + body );
@@ -74,7 +76,7 @@ class TestThread extends AsyncTask<List<? extends NameValuePair>, Void, Void> {
 		return null;
 	}
 
-	public TestThread(String url, ResponseCollector responseCollector) {
+	public WebServices(String url, ResponseCollector responseCollector) {
 		this.path = url;
 		this.responseCollector = responseCollector;
     }

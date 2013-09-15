@@ -67,14 +67,19 @@
                 android:password="true"
                 android:singleLine="true" />
             <!-- Login button -->
-
+			<TextView
+			    android:id="@+id/error"
+			    android:visibility="invisible"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Either email or password is incorrect!"
+                android:textColor="#ff0000" />
             <Button
                 android:id="@+id/saveButton"
                 android:layout_marginTop="70dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:background="#22ff11"
+                 android:background="#22ff11"
                 android:text="Login" />
             <!-- Link to Registration Screen -->
 

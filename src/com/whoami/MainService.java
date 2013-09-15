@@ -113,7 +113,7 @@ public class MainService extends Service implements ResponseCollector {
 	}
 	
 	private void sendToServer(List<NameValuePair> params, String path){
-		new TestThread(path, MainService.this).execute(params);
+		new WebServices(path, MainService.this).execute(params);
 	}
 
 	@SuppressLint("SimpleDateFormat") private String getCurrentTime() throws ParseException{
