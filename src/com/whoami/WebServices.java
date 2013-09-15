@@ -28,8 +28,6 @@ class WebServices extends AsyncTask<List<? extends NameValuePair>, Void, Void> {
 	ResponseCollector responseCollector;
 	String URL = "http://ec2-54-254-105-248.ap-southeast-1.compute.amazonaws.com/";
 	String path;
-	String deviceId = "xxxxx";
-	final String tag = "Your Logcat tag: ";
 
 	protected Void doInBackground(List<? extends NameValuePair>... arg0) {
 		HttpClient httpclient = new DefaultHttpClient();
